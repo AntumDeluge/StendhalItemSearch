@@ -262,7 +262,7 @@ async function typeSelectChange(e) {
   }
   try {
   //let myRequest = "xml.php?file=" + e.target.value;
-    let myRequest = "https://raw.githubusercontent.com/arianne/stendhal/VERSION_" + escape(version) + "_RELEASE_" + escape(release) + "/data/conf/items/" + escape(e.target.value) + ".xml";
+    let myRequest = "https://raw.githubusercontent.com/arianne/stendhal/master" + "/data/conf/items/" + escape(e.target.value) + ".xml";
     const xmlDoc  = await fetchXML(myRequest);
     let itemsDiv = document.getElementById("items");
     itemsDiv.textContent = "";
