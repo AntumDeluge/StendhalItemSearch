@@ -273,7 +273,7 @@ async function typeSelectChange(e) {
         for (j = 0;j<itemAttributes.children.length;++j){
             const child = itemAttributes.children[j];
             let attributeName = child.nodeName;
-            allAttributes[attributes[attributeName]] = child.attributes[0].nodeValue;
+            allAttributes[attributes[attributeName]] = child.attributes.value.nodeValue;
           }
 
       }
