@@ -18,7 +18,6 @@ th {
 
 tr:nth-child(odd) {
 	background-color: #ccc;
-	color: white;
 }
 
 div#container {
