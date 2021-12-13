@@ -2,8 +2,77 @@
 
 (function() {
 
-var types = JSON.parse("[\"armors\",\"arrows\",\"axes\",\"books\",\"boots\",\"boxes\",\"capturetheflag\",\"cloaks\",\"clubs\",\"containers\",\"crystals\",\"documents\",\"drinks\",\"flowers\",\"food\",\"helmets\",\"herbs\",\"jewellery\",\"keys\",\"legs\",\"miscs\",\"missiles\",\"money\",\"ranged\",\"relics\",\"resources\",\"rings\",\"scrolls\",\"shields\",\"special\",\"swords\",\"tokens\",\"tools\"]");
-var images = JSON.parse("[\"/images/item/armor/plate_armor.png\",\"/images/item/ammunition/wooden_arrow.png\",\"/images/item/axe/battle_axe.png\",\"/images/item/book/book_blue.png\",\"/images/item/boots/mainio_boots.png\",\"/images/item/box/stocking.png\",\"\",\"/images/item/cloak/black_dragon_cloak.png\",\"/images/item/club/grand_warhammer.png\",\"/images/item/container/bottle_eared.png\",\"/images/item/crystal/crystal_pink.png\",\"/images/item/documents/paper.png\",\"/images/item/drink/wine.png\",\"/images/item/flower/rose.png\",\"/images/item/food/carrot.png\",\"/images/item/helmet/red_helmet.png\",\"/images/item/herb/arandula.png\",\"/images/item/jewellery/diamond.png\",\"/images/item/key/purple.png\",\"/images/item/legs/golden_legs.png\",\"/images/item/misc/dice.png\",\"/images/item/missile/wooden_spear.png\",\"/images/item/money/gold.png\",\"/images/item/ranged/longbow.png\",\"/images/item/relic/amulet.png\",\"/images/item/resource/wood.png\",\"/images/item/ring/engagement_ring.png\",\"/images/item/scroll/fado.png\",\"/images/item/shield/enhanced_lion_shield.png\",\"/images/item/special/mythical_egg.png\",\"/images/item/sword/scimitar.png\",\"/images/item/token/darkyellow_round_token.png\",\"/images/item/tool/pick.png\"]");
+var types = JSON.parse("[\
+	\"armors\",\
+	\"arrows\",\
+	\"axes\",\
+	\"books\",\
+	\"boots\",\
+	\"boxes\",\
+	\"capturetheflag\",\
+	\"cloaks\",\
+	\"clubs\",\
+	\"containers\",\
+	\"crystals\",\
+	\"documents\",\
+	\"drinks\",\
+	\"flowers\",\
+	\"food\",\
+	\"helmets\",\
+	\"herbs\",\
+	\"jewellery\",\
+	\"keys\",\
+	\"legs\",\
+	\"miscs\",\
+	\"missiles\",\
+	\"money\",\
+	\"ranged\",\
+	\"relics\",\
+	\"resources\",\
+	\"rings\",\
+	\"scrolls\",\
+	\"shields\",\
+	\"special\",\
+	\"swords\",\
+	\"tokens\",\
+	\"tools\"\
+]");
+
+var images = JSON.parse("[\
+	\"/images/item/armor/plate_armor.png\",\
+	\"/images/item/ammunition/wooden_arrow.png\",\
+	\"/images/item/axe/battle_axe.png\",\
+	\"/images/item/book/book_blue.png\",\
+	\"/images/item/boots/mainio_boots.png\",\
+	\"/images/item/box/stocking.png\",\
+	\"\",\
+	\"/images/item/cloak/black_dragon_cloak.png\",\
+	\"/images/item/club/grand_warhammer.png\",\
+	\"/images/item/container/bottle_eared.png\",\
+	\"/images/item/crystal/crystal_pink.png\",\
+	\"/images/item/documents/paper.png\",\
+	\"/images/item/drink/wine.png\",\
+	\"/images/item/flower/rose.png\",\
+	\"/images/item/food/carrot.png\",\
+	\"/images/item/helmet/red_helmet.png\",\
+	\"/images/item/herb/arandula.png\",\
+	\"/images/item/jewellery/diamond.png\",\
+	\"/images/item/key/purple.png\",\
+	\"/images/item/legs/golden_legs.png\",\
+	\"/images/item/misc/dice.png\",\
+	\"/images/item/missile/wooden_spear.png\",\
+	\"/images/item/money/gold.png\",\
+	\"/images/item/ranged/longbow.png\",\
+	\"/images/item/relic/amulet.png\",\
+	\"/images/item/resource/wood.png\",\
+	\"/images/item/ring/engagement_ring.png\",\
+	\"/images/item/scroll/fado.png\",\
+	\"/images/item/shield/enhanced_lion_shield.png\",\
+	\"/images/item/special/mythical_egg.png\",\
+	\"/images/item/sword/scimitar.png\",\
+	\"/images/item/token/darkyellow_round_token.png\",\
+	\"/images/item/tool/pick.png\"\
+]");
 
 const basePageURL = "https://stendhalgame.org";
 // TODO: parse stendhalgame.org to get current version
