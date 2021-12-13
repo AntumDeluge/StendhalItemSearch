@@ -77,7 +77,7 @@ var images = JSON.parse("[\
 const basePageURL = "https://stendhalgame.org";
 // TODO: parse stendhalgame.org to get current version
 const version = "01";
-const release = "32";
+const release = "37";
 
   let ce = document.createElement.bind(document);
 
