@@ -108,12 +108,22 @@ function getImageUrl(itype, iname) {
       + itype + "/" + iname.replace(/ /g, "_") + ".png";
 }
 
+const cache = {};
 function getImage(itype, iname) {
   // TODO:
-  // - check cache for cropped sprites first
-  // - crop animated sprites & download to cache
-  const img = new Image();
-  img.src = getImageUrl(itype, iname);
+  // - crop animated sprites & store in disk cache
+
+  const imageUrl = getImageUrl(itype, iname);
+  // check session cache first
+  let img = cache[imageUrl];
+  if (img) {
+    return img;
+  }
+
+  img = new Image();
+  img.src = imageUrl;
+  // store in session cache
+  cache[imageUrl] = img;
   return img;
 }
 
