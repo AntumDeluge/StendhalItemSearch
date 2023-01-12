@@ -313,7 +313,31 @@ async function typeSelectChange(e) {
     }
 
     for (var i = 0;i<items.length;++i){
-        const item = items[i];
+      const item = items[i];
+      let unattainable = false;
+
+      let itemAttributes = item.getElementsByTagName("attributes");
+      let allAttributes = [];
+
+      if (itemAttributes.length==1){
+        itemAttributes = itemAttributes[0];
+        for (j = 0;j<itemAttributes.children.length;++j){
+            const child = itemAttributes.children[j];
+            if (child.tagName === "unattainable") {
+              unattainable = child.innerHTML === "true";
+            }
+            let attributeName = child.nodeName;
+            if (child.attributes.value) {
+              allAttributes[attributes[attributeName]] = child.attributes.value.nodeValue;
+            }
+          }
+      }
+
+      if (unattainable) {
+        console.log("unattainable item: " + item.attributes[0].value);
+        continue;
+      }
+
       let tr = ce("tr");
       let td = ce("td");
       append(td,tr);
@@ -334,18 +358,6 @@ async function typeSelectChange(e) {
       }),td);
 
       append(tr,table);
-      let itemAttributes = item.getElementsByTagName("attributes");
-      let allAttributes = [];
-
-      if (itemAttributes.length==1){
-        itemAttributes = itemAttributes[0];
-        for (j = 0;j<itemAttributes.children.length;++j){
-            const child = itemAttributes.children[j];
-            let attributeName = child.nodeName;
-            allAttributes[attributes[attributeName]] = child.attributes.value.nodeValue;
-          }
-
-      }
 
       allAttributes = parseResistances(allAttributes,attributes,items[i],"resistance");
       allAttributes = parseResistances(allAttributes,attributes,items[i],"susceptibility");
