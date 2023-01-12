@@ -2,79 +2,78 @@
 
 (function() {
 
-var types = JSON.parse("[\
-	\"armors\",\
-	\"arrows\",\
-	\"axes\",\
-	\"books\",\
-	\"boots\",\
-	\"boxes\",\
-	\"capturetheflag\",\
-	\"cloaks\",\
-	\"clubs\",\
-	\"containers\",\
-	\"crystals\",\
-	\"documents\",\
-	\"drinks\",\
-	\"flowers\",\
-	\"food\",\
-	\"helmets\",\
-	\"herbs\",\
-	\"jewellery\",\
-	\"keys\",\
-	\"legs\",\
-	\"miscs\",\
-	\"missiles\",\
-	\"money\",\
-	\"ranged\",\
-	\"relics\",\
-	\"resources\",\
-	\"rings\",\
-	\"scrolls\",\
-	\"shields\",\
-	\"special\",\
-	\"swords\",\
-	\"tokens\",\
-	\"tools\"\
-]");
+const types = {
+	"armors": "plate_armor",
+	"arrows": "wooden_arrow",
+	"axes": "battle_axe",
+	"books": "book_blue",
+	"boots": "mainio_boots",
+	"boxes": "stocking",
+	"capturetheflag": "",
+	"cloaks": "black_dragon_cloak",
+	"clubs": "grand_warhammer",
+	"containers": "bottle_eared",
+	"crystals": "crystal_pink",
+	"documents": "paper",
+	"drinks": "wine",
+	"flowers": "rose",
+	"food": "carrot",
+	"helmets": "red_helmet",
+	"herbs": "arandula",
+	"jewellery": "diamond",
+	"keys": "purple",
+	"legs": "golden_legs",
+	"miscs": "dice",
+	"missiles": "wooden_spear",
+	"money": "gold",
+	"ranged": "longbow",
+	"relics": "amulet",
+	"resources": "wood",
+	"rings": "engagement_ring",
+	"scrolls": "fado",
+	"shields": "enhanced_lion_shield",
+	"special": "mythical_egg",
+	"swords": "scimitar",
+	"tokens": "darkyellow_round_token",
+	"tools": "pick"
+};
 
-var images = JSON.parse("[\
-	\"/images/item/armor/plate_armor.png\",\
-	\"/images/item/ammunition/wooden_arrow.png\",\
-	\"/images/item/axe/battle_axe.png\",\
-	\"/images/item/book/book_blue.png\",\
-	\"/images/item/boots/mainio_boots.png\",\
-	\"/images/item/box/stocking.png\",\
-	\"\",\
-	\"/images/item/cloak/black_dragon_cloak.png\",\
-	\"/images/item/club/grand_warhammer.png\",\
-	\"/images/item/container/bottle_eared.png\",\
-	\"/images/item/crystal/crystal_pink.png\",\
-	\"/images/item/documents/paper.png\",\
-	\"/images/item/drink/wine.png\",\
-	\"/images/item/flower/rose.png\",\
-	\"/images/item/food/carrot.png\",\
-	\"/images/item/helmet/red_helmet.png\",\
-	\"/images/item/herb/arandula.png\",\
-	\"/images/item/jewellery/diamond.png\",\
-	\"/images/item/key/purple.png\",\
-	\"/images/item/legs/golden_legs.png\",\
-	\"/images/item/misc/dice.png\",\
-	\"/images/item/missile/wooden_spear.png\",\
-	\"/images/item/money/gold.png\",\
-	\"/images/item/ranged/longbow.png\",\
-	\"/images/item/relic/amulet.png\",\
-	\"/images/item/resource/wood.png\",\
-	\"/images/item/ring/engagement_ring.png\",\
-	\"/images/item/scroll/fado.png\",\
-	\"/images/item/shield/enhanced_lion_shield.png\",\
-	\"/images/item/special/mythical_egg.png\",\
-	\"/images/item/sword/scimitar.png\",\
-	\"/images/item/token/darkyellow_round_token.png\",\
-	\"/images/item/tool/pick.png\"\
-]");
+const altnames = {
+  "arrows": "ammunition"
+}
 
-const basePageURL = "https://stendhalgame.org";
+const keepplural = {
+  "boots": true,
+  "documents": true,
+  "legs": true
+}
+
+const endsE = {
+  "axes": true,
+  "missiles": true,
+  "resources": true
+}
+
+function singularOf(st) {
+  if (altnames[st]) {
+    st = altnames[st];
+  }
+  if (keepplural[st]) {
+    return st;
+  }
+
+  while (st.toLowerCase().endsWith("es")) {
+    if (endsE[st]) {
+      break;
+    }
+    st = st.substring(0, st.length-2);
+  }
+  while (st.toLowerCase().endsWith("s")) {
+    st = st.substring(0, st.length-1);
+  }
+  return st;
+}
+
 let version = [];
 function parseVersion(text) {
   text = text.replaceAll("\r\n", "\n").replaceAll("\r", "\n");
@@ -86,13 +85,9 @@ function parseVersion(text) {
   }
 }
 
-function loadTitle() {
-  const t = document.getElementById("title");
-  t.innerHTML = "Stendhal " + version.join(".");
-}
-
+const baseUrlPrefix = "https://raw.githubusercontent.com/arianne/stendhal/";
 async function fetchVersion() {
-  const url = "https://raw.githubusercontent.com/arianne/stendhal/master/build.ant.properties";
+  const url = baseUrlPrefix + "master/build.ant.properties";
   const res = await fetch(url, {
     method: "GET",
     headers: {
@@ -101,7 +96,47 @@ async function fetchVersion() {
   });
   const text = await res.text();
   parseVersion(text);
-  loadTitle();
+}
+
+function formatVersionSlug() {
+  return "VERSION_" + escape("0"+version[0]).slice(-2) + "_RELEASE_"
+      + escape(version[1])
+}
+
+function getImageUrl(itype, iname) {
+  return baseUrlPrefix + formatVersionSlug() + "/data/sprites/items/"
+      + itype + "/" + iname.replace(/ /g, "_") + ".png";
+}
+
+function getImage(itype, iname) {
+  // TODO:
+  // - check cache for cropped sprites first
+  // - crop animated sprites & download to cache
+  const img = new Image();
+  img.src = getImageUrl(itype, iname);
+  return img;
+}
+
+function getHomeUrl(itype, iname) {
+  return "https://stendhalgame.org/item/" + itype + "/"
+      + iname.replace(/ /g, "_") + ".html";
+}
+
+function cropImage(img) {
+  const h = img.naturalHeight;
+  const canvas = document.getElementById("cropper");
+  canvas.width = h;
+  canvas.height = h;
+
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(img,
+      0, 0, h, h,
+      0, 0, h, h);
+  const dataUrl = canvas.toDataURL("image/png");
+  ctx.clearRect(0, 0, h, h);
+  canvas.width = 0;
+  canvas.height = 0;
+  return new Image(dataUrl);
 }
 
   let ce = document.createElement.bind(document);
@@ -120,11 +155,8 @@ async function fetchVersion() {
     where.appendChild(what);
   };
 
-window.addEventListener("load", init);
-
 async function init(){
-  let title = cext("div", {id:"title"});
-  fetchVersion();
+  let title = cext("div", {id:"title", innerHTML: "Stendhal " + version.join(".")});
   append(title);
   let typesContainer = cext("div",{id :"container"});
   append(typesContainer);
@@ -147,50 +179,31 @@ async function init(){
   showIcons.style.display = "none";
   append(showIcons,typesContainer);
   append(icons,typesContainer);
-  // let images = [];
-  for (var i = 0; i<types.length;++i){
+  for (const itype of Object.keys(types)) {
+    const iname = types[itype];
+    if (iname) {
+      let iconContainer = cext("div");
+      let caption = cext("span", {textContent: itype});
+      const img = getImage(singularOf(itype), iname);
 
-      if (images[i].length>0){
-          let iconContainer = cext("div");
-          let caption = cext("span", {textContent: types[i]});
-          let img = cext("img", {
-                src:basePageURL + images[i],
-          });
+      append(img,iconContainer);
+      append(caption,iconContainer);
 
-          append(img,iconContainer);
-          append(caption,iconContainer);
+      append(iconContainer,icons);
+      iconContainer.addEventListener('click', function (e) {
+             selectType.value = e.currentTarget.getElementsByTagName("span")[0].textContent;
+             icons.style.display  = "none";
+             showIcons.style.display = "";
+             typeSelectChange({target:selectType});
+      });
+    }
 
-          append(iconContainer,icons);
-          iconContainer.addEventListener('click', function (e) {
-                 selectType.value = e.currentTarget.getElementsByTagName("span")[0].textContent;
-                 icons.style.display  = "none";
-                 showIcons.style.display = "";
-                 typeSelectChange({target:selectType});
-          });
-      }
-
-      //
-  //   let myRequest = "data/conf/items/" + types[i] + ".xml";
-  //   const xmlDoc  = await fetchXML(myRequest);
-  //   let items = xmlDoc.getElementsByTagName("item");
-  //   if (items.length>0){
-  //       const item = items[ ((Math.random()*items.length))<<0];
-  //
-  //       let type = item.getElementsByTagName("type")[0];
-  //       const src = `/images/item/${type.attributes[0].nodeValue}/${type.attributes[1].value.replace(/ /g,"_")}.png`;
-  //       images[i] = src;
-  //   }else{
-  //       images[i] = "";
-  //   }
-  //
-  //
       let option = cext("option",{
-        textContent : types[i],
-        value : types[i],
+        textContent: itype,
+        value: itype,
     });
     append(option,selectType);
   }
-//  console.log(JSON.stringify(images));
 
   selectType.autocomplete = "off";
   selectType.addEventListener("change", typeSelectChange);
@@ -386,11 +399,9 @@ async function typeSelectChange(e) {
       let type = item.getElementsByTagName("type")[0];
 
 
-      const homepage = `${basePageURL}/item/${escape(type.attributes[0].nodeValue)}/${escape(item.attributes[0].value.replace(/ /g,"_"))}.html`;
+      const homepage = getHomeUrl(escape(type.attributes[0].nodeValue), escape(item.attributes[0].value));
 
-      append(cext("img",{
-          src : `${basePageURL}/images/item/${escape(type.attributes[0].nodeValue)}/${escape(type.attributes[1].value.replace(/ /g,"_"))}.png`,
-      }),td);
+      append(getImage(escape(type.attributes[0].nodeValue), escape(type.attributes[1].value)), td);
 
       append(td,tr);
       append(cext('a', {
@@ -416,5 +427,10 @@ async function typeSelectChange(e) {
     console.log(ex);
   }
 }
+
+window.addEventListener("load", async function() {
+  await fetchVersion();
+  init();
+});
 
 })();
