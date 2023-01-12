@@ -20,6 +20,12 @@ tr:nth-child(odd) {
 	background-color: #ccc;
 }
 
+div#title {
+	margin-top: 20px;
+	text-align: center;
+	font-size: 22pt;
+}
+
 div#container {
 	width: 820px;
 	margin: 0 auto;

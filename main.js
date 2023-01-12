@@ -98,6 +98,9 @@ const release = "42";
 window.addEventListener("load", init);
 
 async function init(){
+  let title = cext("div", {id:"title"});
+  title.innerHTML = "Stendhal " + version.replace(/^0/, "") + "." + release;
+  append(title);
   let typesContainer = cext("div",{id :"container"});
   append(typesContainer);
   let icons = cext("div",{id:"images"});
