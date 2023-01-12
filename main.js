@@ -288,6 +288,15 @@ async function typeSelectChange(e) {
   if (e.target.value == -1){
     return;
   }
+
+  const excluded = {
+    "max_quantity": true,
+    "menu": true,
+    "quantity": true,
+    "unattainable": true,
+    "use_sound": true
+  };
+
   try {
     const url = "https://raw.githubusercontent.com/arianne/stendhal/VERSION_"
         + escape("0"+version[0]).slice(-2) + "_RELEASE_"
@@ -305,7 +314,10 @@ async function typeSelectChange(e) {
       if (itemAttributes.length == 1){
         itemAttributes = itemAttributes[0];
         for (let j = 0;j<itemAttributes.children.length;++j){
-            attributes[itemAttributes.children[j].nodeName] = attributes[itemAttributes.children[j].nodeName] || attributeCount++;
+            const attName = itemAttributes.children[j].nodeName;
+            if (!excluded[attName]) {
+              attributes[attName] = attributes[itemAttributes.children[j].nodeName] || attributeCount++;
+            }
         }
 
       }
