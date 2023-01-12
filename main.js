@@ -75,9 +75,34 @@ var images = JSON.parse("[\
 ]");
 
 const basePageURL = "https://stendhalgame.org";
-// TODO: parse stendhalgame.org to get current version
-const version = "01";
-const release = "42";
+let version = [];
+function parseVersion(text) {
+  text = text.replaceAll("\r\n", "\n").replaceAll("\r", "\n");
+  for (const li of text.split("\n")) {
+    if (li.startsWith("version\.old")) {
+      version = li.split("=")[1].trim().split(".");
+      break;
+    }
+  }
+}
+
+function loadTitle() {
+  const t = document.getElementById("title");
+  t.innerHTML = "Stendhal " + version.join(".");
+}
+
+async function fetchVersion() {
+  const url = "https://raw.githubusercontent.com/arianne/stendhal/master/build.ant.properties";
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "text/plain"
+    }
+  });
+  const text = await res.text();
+  parseVersion(text);
+  loadTitle();
+}
 
   let ce = document.createElement.bind(document);
 
@@ -99,7 +124,7 @@ window.addEventListener("load", init);
 
 async function init(){
   let title = cext("div", {id:"title"});
-  title.innerHTML = "Stendhal " + version.replace(/^0/, "") + "." + release;
+  fetchVersion();
   append(title);
   let typesContainer = cext("div",{id :"container"});
   append(typesContainer);
@@ -264,9 +289,11 @@ async function typeSelectChange(e) {
     return;
   }
   try {
-  //let myRequest = "xml.php?file=" + e.target.value;
-    let myRequest = "https://raw.githubusercontent.com/arianne/stendhal/VERSION_" + escape(version) + "_RELEASE_" + escape(release) + "/data/conf/items/" + escape(e.target.value) + ".xml";
-    const xmlDoc  = await fetchXML(myRequest);
+    const url = "https://raw.githubusercontent.com/arianne/stendhal/VERSION_"
+        + escape("0"+version[0]).slice(-2) + "_RELEASE_"
+        + escape(version[1]) + "/data/conf/items/"
+        + escape(e.target.value) + ".xml";
+    const xmlDoc  = await fetchXML(url);
     let itemsDiv = document.getElementById("items");
     itemsDiv.textContent = "";
     let attributes = {};
