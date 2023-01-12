@@ -355,14 +355,22 @@ async function typeSelectChange(e) {
 
     append(thead,table);
     append(tr,thead);
+
+    td.textContent = "image";
     append(td,tr);
-    td.textContent = "name";
+
+    td = cext("th",{
+      textContent: "name"
+    });
+    td.classList.add("sortable");
     td.addEventListener("click", sortBy);
+    append(td,tr);
 
     for (var i in attributes){
       td = cext("th",{
           textContent:i,
       });
+      td.classList.add("sortable");
       append(td,tr);
       td.addEventListener("click", sortBy);
     }
@@ -401,8 +409,10 @@ async function typeSelectChange(e) {
 
       const homepage = getHomeUrl(escape(type.attributes[0].nodeValue), escape(item.attributes[0].value));
 
+      td.classList.add("sprite");
       append(getImage(escape(type.attributes[0].nodeValue), escape(type.attributes[1].value)), td);
 
+      td = ce("td");
       append(td,tr);
       append(cext('a', {
           href: homepage,
@@ -416,7 +426,7 @@ async function typeSelectChange(e) {
       allAttributes = parseResistances(allAttributes,attributes,items[i],"susceptibility");
 
 
-        for (var j=1;j<=attributeCount;++j){
+        for (var j=2;j<=attributeCount;++j){
             append(cext("td",{
                 textContent: allAttributes[j] || "",
             }),tr);

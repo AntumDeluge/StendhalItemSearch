@@ -12,7 +12,11 @@ td, th {
 	border-right: 1px solid black;
 }
 
-th {
+td.sprite {
+	text-align: center;
+}
+
+th.sortable {
 	cursor: pointer;
 }
 
