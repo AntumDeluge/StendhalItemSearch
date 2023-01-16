@@ -1,54 +1,54 @@
 
 table {
-	width: 800px;
-	margin: 0 auto;
-	border-collapse: collapse;
-	border-left: 5px solid black;
-	border-right: 5px solid black;
+  width: 800px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  border-left: 5px solid black;
+  border-right: 5px solid black;
 }
 
 td, th {
-	padding: 5px;
-	border-right: 1px solid black;
+  padding: 5px;
+  border-right: 1px solid black;
 }
 
 td.sprite {
-	text-align: center;
+  text-align: center;
 }
 
 th.sortable {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 tr:nth-child(odd) {
-	background-color: #ccc;
+  background-color: #ccc;
 }
 
 div#title {
-	margin-top: 20px;
-	text-align: center;
-	font-size: 22pt;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 22pt;
 }
 
 div#container {
-	width: 820px;
-	margin: 0 auto;
+  width: 820px;
+  margin: 0 auto;
 }
 
 div#images div:hover span {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 div#images div {
-	float: left;
-	width: 8%;
-	margin: 2%;
-	border: 1px solid black;
-	padding: 5px;
-	text-align: center;
-	cursor: pointer;
+  float: left;
+  width: 8%;
+  margin: 2%;
+  border: 1px solid black;
+  padding: 5px;
+  text-align: center;
+  cursor: pointer;
 }
 
 div#images div img {
-	width: 99%;
+  width: 99%;
 }
