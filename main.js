@@ -9,7 +9,7 @@ const types = {
 	"books": "book_blue",
 	"boots": "mainio_boots",
 	"boxes": "stocking",
-	"capturetheflag": "",
+	//~ "capturetheflag": "",
 	"cloaks": "royal_cloak",
 	"clubs": "grand_warhammer",
 	"containers": "bottle_eared",
