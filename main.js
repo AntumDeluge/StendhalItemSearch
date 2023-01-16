@@ -196,6 +196,7 @@ async function init() {
       const iconContainer = cext("div");
       const caption = cext("span", {textContent: itype});
       const img = getImage(singularOf(itype), iname);
+      img.className = "caticon";
 
       append(img, iconContainer);
       append(caption, iconContainer);
@@ -418,7 +419,9 @@ async function typeSelectChange(e) {
       const homepage = getHomeUrl(escape(type.attributes[0].nodeValue), escape(item.attributes[0].value));
 
       td.classList.add("sprite");
-      append(getImage(escape(type.attributes[0].nodeValue), escape(type.attributes[1].value)), td);
+      const sprite = getImage(escape(type.attributes[0].nodeValue), escape(type.attributes[1].value));
+      sprite.className = "listicon";
+      append(sprite, td);
 
       td = ce("td");
       append(td, tr);

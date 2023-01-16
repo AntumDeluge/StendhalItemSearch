@@ -49,6 +49,16 @@ div#images div {
   cursor: pointer;
 }
 
-div#images div img {
+img {
+  object-fit: cover;
+  object-position: 0 0;
+}
+
+div#images div img.caticon {
   width: 99%;
+}
+
+img.listicon {
+  width: 32px;
+  height: 32px;
 }
