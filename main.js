@@ -436,7 +436,7 @@ async function typeSelectChange(e) {
       allAttributes = parseResistances(allAttributes,attributes,items[i],"susceptibility");
 
 
-        for (var j=2;j<=attributeCount;++j){
+        for (var j = 1; j <= attributeCount-1; ++j) {
             append(cext("td",{
                 textContent: allAttributes[j] || "",
             }),tr);
