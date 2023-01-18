@@ -88,14 +88,20 @@ function parseVersion(text) {
 const baseUrlPrefix = "https://raw.githubusercontent.com/arianne/stendhal/";
 async function fetchVersion() {
   const url = baseUrlPrefix + "master/build.ant.properties";
-  const res = await fetch(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "text/plain"
-    }
-  });
-  const text = await res.text();
-  parseVersion(text);
+  try {
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "text/plain"
+      }
+    });
+    const text = await res.text();
+    parseVersion(text);
+  } catch (e) {
+    const errmsg = "Failed to parse version information: " + url;
+    console.error(errmsg, e);
+    alert(errmsg);
+  }
 }
 
 function formatVersionSlug() {
@@ -322,11 +328,12 @@ async function typeSelectChange(e) {
     "use_sound": true
   };
 
+  const url = "https://raw.githubusercontent.com/arianne/stendhal/VERSION_"
+      + escape("0"+version[0]).slice(-2) + "_RELEASE_"
+      + escape(version[1]) + "/data/conf/items/"
+      + escape(e.target.value) + ".xml";
+
   try {
-    const url = "https://raw.githubusercontent.com/arianne/stendhal/VERSION_"
-        + escape("0"+version[0]).slice(-2) + "_RELEASE_"
-        + escape(version[1]) + "/data/conf/items/"
-        + escape(e.target.value) + ".xml";
     const xmlDoc  = await fetchXML(url);
     const itemsDiv = document.getElementById("items");
     itemsDiv.textContent = "";
@@ -443,8 +450,10 @@ async function typeSelectChange(e) {
       }
     }
     append(table, itemsDiv);
-  } catch (ex) {
-    console.log(ex);
+  } catch (e) {
+    const errmsg = "Failed to fetch xml resource: " + url;
+    console.error(errmsg, e);
+    alert(errmsg);
   }
 }
 
