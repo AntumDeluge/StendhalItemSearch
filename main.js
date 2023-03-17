@@ -172,8 +172,9 @@ function append(what, where) {
 };
 
 async function init() {
-  const title = cext("div", {id: "title", innerHTML: "Stendhal " + version.join(".")});
-  append(title);
+  // add version to title
+  const title = document.getElementById("title");
+  title.innerText = title.innerText + " " + version.join(".");
   const typesContainer = cext("div", {id: "container"});
   append(typesContainer);
   const icons = cext("div", {id: "images"});

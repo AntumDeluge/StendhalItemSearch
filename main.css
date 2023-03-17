@@ -24,10 +24,18 @@ tr:nth-child(odd) {
   background-color: #ccc;
 }
 
-div#title {
+div.titlebox {
   margin-top: 20px;
+}
+
+div#title {
   text-align: center;
   font-size: 22pt;
+}
+
+div#subtitle {
+  text-align: center;
+  font-size: small;
 }
 
 div#container {
