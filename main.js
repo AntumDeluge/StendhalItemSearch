@@ -205,8 +205,6 @@ async function init() {
       icons.style.display = "none";
     }
   };
-  // hide button until a type is selected
-  showIcons.style.display = "none";
 
   // fill item types
   for (const itype of Object.keys(types)) {
@@ -224,7 +222,6 @@ async function init() {
       iconContainer.addEventListener("click", function (e) {
         selectType.value = e.currentTarget.getElementsByTagName("span")[0].textContent;
         icons.style.display  = "none";
-        showIcons.style.display = "";
         typeSelectChange({target:selectType});
       });
     }
