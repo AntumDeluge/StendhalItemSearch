@@ -41,6 +41,7 @@ div#subtitle {
 div#container {
   width: 820px;
   margin: 0 auto;
+  margin-top: 20px;
 }
 
 div#images div:hover span {

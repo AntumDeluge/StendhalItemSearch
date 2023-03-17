@@ -191,28 +191,24 @@ async function init() {
   // add version to title
   const title = document.getElementById("title");
   title.innerText = title.innerText + " " + version.join(".");
-  const typesContainer = cext("div", {id: "container"});
-  append(typesContainer);
-  const icons = cext("div", {id: "images"});
 
-  const selectType = ce("select");
-  const dummyoption = cext("option", {
-    value: -1,
-    textContent: "--select one--"
-  });
-  append(dummyoption, selectType);
-  append(selectType, typesContainer);
+  const typesContainer = document.getElementById("container");
+  const icons = document.getElementById("images");
 
-  const showIcons = cext("input", {
-    value: "showicons",
-    type: "button",
-    onclick: function() {
-      icons.style.display = '';
+  const selectType = document.getElementById("selecttype");
+  // button to show/hide type icons
+  const showIcons = document.getElementById("toggleicons");
+  showIcons.onclick = function() {
+    if (icons.style.display === "none") {
+      icons.style.display = "";
+    } else {
+      icons.style.display = "none";
     }
-  });
+  };
+  // hide button until a type is selected
   showIcons.style.display = "none";
-  append(showIcons, typesContainer);
-  append(icons, typesContainer);
+
+  // fill item types
   for (const itype of Object.keys(types)) {
     const iname = types[itype];
     if (iname) {
@@ -225,7 +221,7 @@ async function init() {
       append(caption, iconContainer);
 
       append(iconContainer, icons);
-      iconContainer.addEventListener('click', function (e) {
+      iconContainer.addEventListener("click", function (e) {
         selectType.value = e.currentTarget.getElementsByTagName("span")[0].textContent;
         icons.style.display  = "none";
         showIcons.style.display = "";
