@@ -111,7 +111,7 @@ function formatVersionSlug() {
 
 function getImageUrl(itype, iname) {
   return baseUrlPrefix + formatVersionSlug() + "/data/sprites/items/"
-      + itype + "/" + iname.replace(/ /g, "_") + ".png";
+      + itype + "/" + iname.replace(/ |%20/g, "_") + ".png";
 }
 
 const cache = {};
@@ -135,7 +135,7 @@ function getImage(itype, iname) {
 
 function getHomeUrl(itype, iname) {
   return "https://stendhalgame.org/item/" + itype + "/"
-      + iname.replace(/ /g, "_") + ".html";
+      + iname.replace(/ |%20/g, "_") + ".html";
 }
 
 function cropImage(img) {
