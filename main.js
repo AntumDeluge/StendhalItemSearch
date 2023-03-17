@@ -143,7 +143,7 @@ function getListIcon(itype, iname) {
 
   // create a copy so original isn't modified
   icon = getImage(itype, iname).cloneNode();
-  icon.className = "listicon";
+  icon.className = "list-icon";
   // store in session cache
   icons_cache[imageUrl] = icon;
   return icon;
@@ -169,6 +169,17 @@ function cropImage(img) {
   canvas.width = 0;
   canvas.height = 0;
   return new Image(dataUrl);
+}
+
+function createCatButton(caption, img) {
+  const template = document.getElementById("category-template");
+  const container = template.content.cloneNode(true).children[0];
+  const text = container.querySelector(".category-caption");
+  text.textContent = caption;
+  const imgcopy = img.cloneNode();
+  imgcopy.className = "category-icon";
+  container.insertBefore(imgcopy, text);
+  return container;
 }
 
 const ce = document.createElement.bind(document);
@@ -210,14 +221,7 @@ async function init() {
   for (const itype of Object.keys(types)) {
     const iname = types[itype];
     if (iname) {
-      const iconContainer = cext("div");
-      const caption = cext("span", {textContent: itype});
-      const img = getImage(singularOf(itype), iname);
-      img.className = "caticon";
-
-      append(img, iconContainer);
-      append(caption, iconContainer);
-
+      const iconContainer = createCatButton(itype, getImage(singularOf(itype), iname));
       append(iconContainer, icons);
       iconContainer.addEventListener("click", function (e) {
         selectType.value = e.currentTarget.getElementsByTagName("span")[0].textContent;
