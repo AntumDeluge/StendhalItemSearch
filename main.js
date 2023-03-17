@@ -133,6 +133,22 @@ function getImage(itype, iname) {
   return img;
 }
 
+const icons_cache = {};
+function getListIcon(itype, iname) {
+  const imageUrl = getImageUrl(itype, iname);
+  let icon = icons_cache[imageUrl];
+  if (icon) {
+    return icon;
+  }
+
+  // create a copy so original isn't modified
+  icon = getImage(itype, iname).cloneNode();
+  icon.className = "listicon";
+  // store in session cache
+  icons_cache[imageUrl] = icon;
+  return icon;
+}
+
 function getHomeUrl(itype, iname) {
   return "https://stendhalgame.org/item/" + itype + "/"
       + iname.replace(/ |%20/g, "_") + ".html";
@@ -341,7 +357,7 @@ async function typeSelectChange(e) {
     const attributes = {};
     let attributeCount = 1;
     const items = xmlDoc.getElementsByTagName("item");
-    for (i = 0; i < items.length; ++i) {
+    for (var i = 0; i < items.length; ++i) {
       const item = items[i];
       let itemAttributes = item.getElementsByTagName("attributes");
       if (itemAttributes.length == 1) {
@@ -357,7 +373,7 @@ async function typeSelectChange(e) {
       function fillAttributes(source) {
         return function() {
           const elements = item.getElementsByTagName(source);
-          for (j = 0; j < elements.length; ++j) {
+          for (var j = 0; j < elements.length; ++j) {
             attributes[elements[j].attributes[0].nodeValue] = attributes[elements[j].attributes[0].nodeValue] || attributeCount++;
           }
         };
@@ -403,7 +419,7 @@ async function typeSelectChange(e) {
 
       if (itemAttributes.length == 1) {
         itemAttributes = itemAttributes[0];
-        for (j = 0; j < itemAttributes.children.length; ++j) {
+        for (var j = 0; j < itemAttributes.children.length; ++j) {
           const child = itemAttributes.children[j];
           if (child.tagName === "unattainable") {
             unattainable = child.innerHTML === "true";
@@ -419,16 +435,15 @@ async function typeSelectChange(e) {
         continue;
       }
 
-      let tr = ce("tr");
-      let td = ce("td");
+      tr = ce("tr");
+      td = ce("td");
       append(td, tr);
       let type = item.getElementsByTagName("type")[0];
 
       const homepage = getHomeUrl(escape(type.attributes[0].nodeValue), escape(item.attributes[0].value));
 
       td.classList.add("sprite");
-      const sprite = getImage(escape(type.attributes[0].nodeValue), escape(type.attributes[1].value));
-      sprite.className = "listicon";
+      const sprite = getListIcon(escape(type.attributes[0].nodeValue), escape(type.attributes[1].value));
       append(sprite, td);
 
       td = ce("td");
